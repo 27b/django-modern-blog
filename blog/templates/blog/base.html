@@ -1,15 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
+<html lang="en-us" itemscope="" itemtype="http://schema.org/WebPage" class="wf-mulish-n4-active wf-active">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="msapplication-TileColor" content="#01AD9F">
+    <meta name="theme-color" content="#fff">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5">
+    <meta name="keywords" content="">
+    <meta name="description" content="This is meta description">
+    <meta name="author" content="Themefisher">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mulish:wght@500;600;700;800;900&amp;display=swap" media="all">
+    <link rel="stylesheet" href="static/css/style.css">
     {% block head %}
     {% endblock %}
 </head>
 <body>
-    <h1>Blog</h1>
+    <div class="preloader" style="display: hidden;"></div>
+    
+    <div class="header-height-fix"></div>
+    
+    {% include './includes/header.html' %}
+    
+    {% include './includes/search.html' %}
+    
     {% block content %}
     {% endblock %}
+        
+    {% include './includes/footer.html' %}
+
+    <script src="static/js/jquery.min.js"></script>
+    <script type="application/javascript">
+        WebFont.load({google:{api:'https://fonts.googleapis.com/css2',families:['Mulish:wght@500;600;700;800;900&display=swap'],version:2},active:()=>{sessionStorage.fontsLoaded=!0}})
+    </script>
+    <script>
+        window.addEventListener('load',a=>{const b=GLightbox();window.setTimeout(()=>{const a=screen.height*.25;let b=document.querySelectorAll('.gallery .gallery-item');Array.prototype.forEach.call(b,b=>{let c=b.querySelector('img'),d=c.width/c.height;b.style.width=a*d+'px',b.style.flexGrow=d})},200)})
+    </script>
+    <script>
+        'serviceWorker'in navigator&&navigator.serviceWorker.register("/bookworm/site/service-worker.js")
+    </script>
 </body>
 </html>
