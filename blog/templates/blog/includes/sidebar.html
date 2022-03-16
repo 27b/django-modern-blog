@@ -10,24 +10,21 @@
         <div class="widget widget-categories">
             <h5 class="widget-title"><span>Categories</span></h5>
             <ul class="list-unstyled widget-list">
-                <li><a href="/bookworm/site/categories/accessories" class="d-flex">Accessories <small class="ms-auto">(1)</small></a></li>
-                <li><a href="/bookworm/site/categories/food" class="d-flex">Food <small class="ms-auto">(1)</small></a></li>
-                <li><a href="/bookworm/site/categories/lifestyle" class="d-flex">Lifestyle <small class="ms-auto">(4)</small></a></li>
-                <li><a href="/bookworm/site/categories/photography" class="d-flex">Photography <small class="ms-auto">(2)</small></a></li>
+                <li><a href="/categories/architecture/" class="d-flex">Architecture <small class="ms-auto">(1)</small></a></li>
+                <li><a href="/categories/book-reviews/" class="d-flex">Book reviews <small class="ms-auto">(1)</small></a></li>
+                <li><a href="/categories/design-patterns/" class="d-flex">Design patterns <small class="ms-auto">(4)</small></a></li>
+                <li><a href="/categories/guides-and-tutorials/" class="d-flex">Guides & Tutorials <small class="ms-auto">(2)</small></a></li>
             </ul>
         </div>
         <div class="widget">
             <h4 class="widget-title"><span>Tags</span></h4>
             <ul class="list-inline widget-list widget-list-inline taxonomies-list">
-                <li class="list-inline-item"><a href="/bookworm/site/tags/alarm">Alarm</a></li>
-                <li class="list-inline-item"><a href="/bookworm/site/tags/balloon">Balloon</a></li>
-                <li class="list-inline-item"><a href="/bookworm/site/tags/clock">Clock</a></li>
-                <li class="list-inline-item"><a href="/bookworm/site/tags/diy">Diy</a></li>
-                <li class="list-inline-item"><a href="/bookworm/site/tags/food">Food</a></li>
-                <li class="list-inline-item"><a href="/bookworm/site/tags/gas">Gas</a></li>
-                <li class="list-inline-item"><a href="/bookworm/site/tags/gold">Gold</a></li>
-                <li class="list-inline-item"><a href="/bookworm/site/tags/photography">Photography</a></li>
-                <li class="list-inline-item"><a href="/bookworm/site/tags/toy">Toy</a></li>
+                {% for tag in object.tags %}
+                    <li class="list-inline-item">
+                        <a href="/tags/{{ tag }}">{{ tag }}</a>
+                    </li>
+                {% endfor%}
+                <br>
             </ul>
         </div>
         <div class="widget">
