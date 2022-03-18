@@ -37,7 +37,9 @@ class Post(models.Model):
 
     def __str__(self) -> str:
         return self.title
-
+    
+    class Meta:
+        ordering = ['-datetime']
 
 admin.site.register(Profile)
 admin.site.register(Category)

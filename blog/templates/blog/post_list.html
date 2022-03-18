@@ -1,0 +1,150 @@
+{% extends './base.html' %}
+
+{% block head %}
+    <title>Index - Orión B Blog</title>
+{% endblock %}
+
+{% block content %}
+    <main>
+        <section class="section-sm">
+            <div class="container">
+                <div class="row no-gutters justify-content-center">
+                    <div class="col-lg-10">
+                        <div class="row">
+                            {% for post in object_list %}
+                                {% if forloop.first %}
+                                    <script>console.log('{{post}}')</script>
+                                    <div class="col-lg-12">
+                                        <article class="card post-card">
+                                            <div class="post-slider rounded mb-4 slick-initialized slick-slider">
+                                                <div class="slick-list draggable">
+                                                    <img
+                                                        loading="lazy"
+                                                        decoding="async"
+                                                        class="w-100"
+                                                        src="/uploads/{{ post.image }}"
+                                                        alt="post-thumb" width="970" height="500"
+                                                        style="object-fit: cover;"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <ul class="card-meta list-inline mb-2">
+                                                    <li class="list-inline-item mb-2">
+                                                        <a href="/author/{{ post.author }}" class="card-meta-author">
+                                                            <img 
+                                                                loading="lazy"
+                                                                decoding="async"
+                                                                src="/uploads/{{ post.author.profile.image }}"
+                                                                alt="{{ post.author }}"
+                                                                class="img-fluid"
+                                                                width="26"
+                                                                height="26"
+                                                                onerror="this.onerror='null',this.src='/bookworm/site/images/author/author_hu376e72e235c9199766cd0ec2291cc5fb_3167_26x26_resize_q90_box.jpg'"
+                                                            />
+                                                            <span>{{ post.author.get_full_name }}</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="list-inline-item mb-2">
+                                                        <span>{{ post.datetime }}</span>
+                                                    </li>
+                                                    <li class="list-inline-item mb-2">
+                                                        <ul class="card-meta-tag list-inline">
+                                                            {% for tag in post.tags %}
+                                                                <li class="list-inline-item"><a href="/tags/{{ tag | lower }}/">{{ tag }}</a></li>
+                                                            {% endfor %}
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                                <h3 class="h4 mb-3">
+                                                    <a class="post-title" href="/post/{{ post.id }}/">{{ post.title }}</a>
+                                                </h3>
+                                                <p>{{ post.description }}</p>
+                                                <a href="/post/{{ post.id }}" aria-label="Read Article">Read Article <i class="fas fa-angle-right"></i></a>
+                                            </div>
+                                        </article>
+                                    </div>
+                                {% else %}
+                                    <div class="col-lg-12">
+                                        <article class="card post-card">
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="col-lg-6">
+                                                    <div class="pr-0 pr-lg-5">
+                                                        <div class="post-slider slider-sm rounded mb-4 mb-lg-0 slick-initialized slick-slider">
+                                                            <div class="slick-list draggable">
+                                                                <div class="slick-track" style="opacity: 1; width: 527px; transform: translate3d(0px, 0px, 0px);">
+                                                                    <img
+                                                                        loading="lazy"
+                                                                        decoding="async"
+                                                                        class="w-100"
+                                                                        src="/uploads/{{ post.image }}"
+                                                                        alt="post-thumb"
+                                                                        style="width:970px;height:360px;object-fit: cover;"
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="card-body pt-lg-0">
+                                                        <ul class="card-meta list-inline mb-2">
+                                                            <li class="list-inline-item mb-2">
+                                                                <a href="/author/{{ post.author }}" class="card-meta-author">
+                                                                    <img
+                                                                        loading="lazy"
+                                                                        decoding="async"
+                                                                        src="/uploads/{{ post.author.profile.image }}"
+                                                                        alt="{{ post.author }}"
+                                                                        class="img-fluid"
+                                                                        width="26"
+                                                                        height="26"
+                                                                        onerror="this.onerror='null',this.src='/bookworm/site/images/author/author_hu376e72e235c9199766cd0ec2291cc5fb_3167_26x26_resize_q90_box.jpg'"
+                                                                    />
+                                                                    <span>{{ post.author.get_full_name }}</span>
+                                                                </a>
+                                                            </li>
+                                                            <li class="list-inline-item mb-2">
+                                                                <span>{{ post.datetime }}</span>
+                                                            </li>
+                                                            <li class="list-inline-item mb-2">
+                                                                <ul class="card-meta-tag list-inline">
+                                                                    <li class="list-inline-item"><a href="/category/{{ post.category | lower }}">{{ post.category }}</a></li>
+                                                                </ul>
+                                                            </li>
+                                                        </ul>
+                                                        <h3 class="h4 mb-3">
+                                                            <a class="post-title" href="/post/{{ post.id }}">{{ post.title }}</a>
+                                                        </h3>
+                                                        <p>{{ post.description }}</p>
+                                                        <a href="/post/{{ post.id }}" aria-label="Read Article">Read Article <i class="fas fa-angle-right"></i></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </article>                                
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <nav class="mt-4">
+                                    <nav class="mb-md-50">
+                                        <ul class="pagination justify-content-center">
+                                            <li class="page-item active">
+                                                <a href="/1" class="page-link rounded">1</a>
+                                            </li>
+                                            <li class="page-item">
+                                                <a href="/2" class="page-link rounded">2</a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </nav>
+                            </div>
+                        </div>    
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock %}

@@ -12,5 +12,10 @@ class IndexView(View):
         return render(request, 'blog/index.html')
 
 
+class IndexView(ListView):
+    model = Post
+    paginate_by = 6
+
+
 class PostDetailView(DetailView):
     model = Post

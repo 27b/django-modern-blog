@@ -1,7 +1,9 @@
 {% extends './base.html' %}
 
 {% block head %}
-	<title> {{ object.title }} 	- Blog</title>
+	<title>{{ object.title }} 	- Orión B Blog</title>
+	<meta name="description" content="{{ object.description }}">
+	<meta name="author" content="{{ object.author.get_full_name }}">
 {% endblock %}
 
 {% block content %}
@@ -16,8 +18,8 @@
 								<ul class="card-meta list-inline">
 									<li class="list-inline-item">
 										<a href="https://demo.gethugothemes.com/bookworm/site/author/lubana-era/" class="card-meta-author">
-											<img loading="lazy" decoding="async" src="/uploads/{{ object.author.profile.image }}" alt="Lubana Era" class="img-fluid" width="26" height="26" onerror="this.onerror='null',this.src='/bookworm/site/images/author/author_hu376e72e235c9199766cd0ec2291cc5fb_3167_26x26_resize_q90_box.jpg'">
-											<span>{{ object.author }}</span>
+											<img loading="lazy" decoding="async" src="/uploads/{{ object.author.profile.image }}" alt="{{ object.author }}" class="img-fluid" width="26" height="26" onerror="this.onerror='null',this.src='/bookworm/site/images/author/author_hu376e72e235c9199766cd0ec2291cc5fb_3167_26x26_resize_q90_box.jpg'">
+											<span>{{ object.author.get_full_name }}</span>
 										</a>
 									</li>
 									<li class="list-inline-item">|</li>
