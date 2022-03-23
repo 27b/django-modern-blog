@@ -12,6 +12,18 @@ class IndexView(View):
         return render(request, 'blog/index.html')
 
 
+class PrivacyView(View):
+
+    def get(self, request):
+        return render(request, 'blog/privacy.html')
+
+
+class TermsAndConditionsView(View):
+
+    def get(self, request):
+        return render(request, 'blog/terms_and_conditions.html')
+
+
 class ContactView(View):
     form = ContactForm
 
