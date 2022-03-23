@@ -1,8 +1,9 @@
-from distutils.command.upload import upload
 from django.contrib import admin
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
+from django.core.mail import send_mail
+from django.conf import settings
 
 
 class Profile(models.Model):
@@ -41,6 +42,27 @@ class Post(models.Model):
     class Meta:
         ordering = ['-datetime']
 
+
+class Contact(models.Model):
+    name = models.CharField(null=False, max_length=128)
+    email = models.EmailField(null=False, max_length=256)
+    subject = models.CharField(null=False, max_length=256)
+    message = models.TextField(null=False, max_length=1024)
+
+    def __str__(self) -> str:
+        return f'{self.name} <{self.email}> {self.subject}'
+
+    def send_email(self) -> None:
+        send_mail(
+            self.subject,
+            f'{self.name}: {self.message}',
+            self.email,
+            [settings.EMAIL_HOST_USER],
+            fail_silently=False,
+        )
+
+
 admin.site.register(Profile)
 admin.site.register(Category)
 admin.site.register(Post)
+admin.site.register(Contact)

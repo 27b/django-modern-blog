@@ -1,0 +1,50 @@
+{% extends './base.html' %}
+
+{% block head %}
+	<title>Contact - Orión B Blog</title>
+	<meta name="description" content="Send me a message!">
+{% endblock %}
+
+{% block content %}
+    {% include './includes/title.html' %}
+    <main>
+        <section class="section-sm">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-8">
+                        <form action="#" method="post">
+                            <!-- <div class="mb-4">
+                                <label for="name" class="form-label">Your Name</label>
+                                <input type="email" class="form-control rounded" id="name" placeholder="Jhon Doe" required="" />
+                            </div>
+                            <div class="mb-4">
+                                <label for="email" class="form-label">Email Address</label>
+                                <input type="email" class="form-control rounded" id="email" placeholder="jhon-doe@email.com" required="" />
+                            </div>
+                            <div class="mb-4">
+                                <label for="subject" class="form-label">Subject</label>
+                                <input type="email" class="form-control rounded" id="subject" placeholder="Reasons for Contact" required="" />
+                            </div>
+                            <div class="mb-4">
+                                <label for="message" class="form-label">Your Message Here</label>
+                                <textarea class="form-control rounded" id="message" rows="4" placeholder="Your Message" required=""></textarea>
+                            </div> -->
+                            {% for field in form %}
+                                <div class="mb-4">
+                                    {% csrf_token %}
+                                    <label class="form-label">{{ field.label }}</label>
+                                    {{ field }}
+                                    {{ field.errors }}
+                                    {% if field.help_text %}
+                                        <p class="help">{{ field.help_text | safe }}</p>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                            <button type="submit" class="btn btn-primary rounded" aria-label="Send Message">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock %}
