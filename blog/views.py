@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views import View
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
+from django.contrib.auth.models import User
 from .forms import ContactForm
 from .models import Post
 
@@ -57,8 +58,7 @@ class ContactView(View):
             contact_form.instance.send_email()
             contact_form = self.form()
         self.context['form'] = contact_form
-        return render(request, 'blog/contact.html', self.context)
-        
+        return render(request, 'blog/contact.html', self.context)        
         
 
 class IndexView(ListView):
@@ -68,3 +68,18 @@ class IndexView(ListView):
 
 class PostDetailView(DetailView):
     model = Post
+
+
+class AuthorListView(ListView):
+    model = User
+    template_name = 'blog/author_list.html'
+    paginate_by = 6
+
+    def get_queryset(self):
+        return User.objects.order_by('date_joined')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['section_name'] = 'Authors'
+        context['sections'] = [{'name': 'Authors', 'url': '/authors/'}]
+        return context

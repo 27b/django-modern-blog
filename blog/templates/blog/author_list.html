@@ -1,0 +1,51 @@
+{% extends './base.html' %}
+
+{% block head %}
+	<title>Contact - Orión B Blog</title>
+	<meta name="description" content="Send me a message!">
+	<style>
+		.cut-text {
+			text-overflow: ellipsis;
+			display: -webkit-box;
+   			-webkit-line-clamp: 4;
+        	line-clamp: 4;
+			-webkit-box-orient: vertical;
+  			overflow: hidden;
+		}
+	</style>
+{% endblock %}
+
+{% block content %}
+    {% include './includes/title.html' %}
+	<main>
+		<section class="section-sm">
+			<div class="container">
+				<div class="row justify-content-center text-center">
+					
+					{% for user in object_list %}
+						<div class="col-lg-4 col-sm-6 mb-4">
+							<img
+								loading="lazy"
+								decoding="async"
+								src="/uploads/{{ user.profile.image }}"
+								alt="User {{ user }}"
+								class="img-fluid rounded"
+								width="150"
+								height="150"
+								onerror="this.onerror='null',this.src=''"
+							/>
+							<a href="/user/{{ user }}" class="d-block text-dark">
+								<h4 class="font-weight-700 mt-4 mb-3">{{ user }}</h4>
+							</a>
+							<p>
+								<span class="cut-text">{{ user.profile.bio }}</span>
+								<a class="text-dark" href="/user/{{ user }}">Read More</a>
+							</p>
+						</div>
+					{% endfor %}
+
+				</div>
+			</div>
+		</section>
+	</main>	
+{% endblock %}
