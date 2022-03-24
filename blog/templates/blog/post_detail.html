@@ -17,8 +17,8 @@
 								<h2 class="h3 mb-4 post-title">{{ object.title }}</h2>
 								<ul class="card-meta list-inline">
 									<li class="list-inline-item">
-										<a href="https://demo.gethugothemes.com/bookworm/site/author/lubana-era/" class="card-meta-author">
-											<img loading="lazy" decoding="async" src="/uploads/{{ object.author.profile.image }}" alt="{{ object.author }}" class="img-fluid" width="26" height="26" onerror="this.onerror='null',this.src='/bookworm/site/images/author/author_hu376e72e235c9199766cd0ec2291cc5fb_3167_26x26_resize_q90_box.jpg'">
+										<a href="/author/{{ object.author }}" class="card-meta-author">
+											<img loading="lazy" decoding="async" src="/uploads/{{ object.author.profile.image }}" alt="{{ object.author }}" class="img-fluid" width="26" height="26">
 											<span>{{ object.author.get_full_name }}</span>
 										</a>
 									</li>

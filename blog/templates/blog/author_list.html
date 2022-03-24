@@ -1,8 +1,8 @@
 {% extends './base.html' %}
 
 {% block head %}
-	<title>Contact - Orión B Blog</title>
-	<meta name="description" content="Send me a message!">
+	<title>{{ user.get_full_name }} - Orión B Blog</title>
+	<meta name="description" content="List of authors.">
 	<style>
 		.cut-text {
 			text-overflow: ellipsis;
@@ -34,12 +34,12 @@
 								height="150"
 								onerror="this.onerror='null',this.src=''"
 							/>
-							<a href="/user/{{ user }}" class="d-block text-dark">
-								<h4 class="font-weight-700 mt-4 mb-3">{{ user }}</h4>
+							<a href="/author/{{ user }}" class="d-block text-dark">
+								<h4 class="font-weight-700 mt-4 mb-3">{{ user.get_full_name }}</h4>
 							</a>
 							<p>
 								<span class="cut-text">{{ user.profile.bio }}</span>
-								<a class="text-dark" href="/user/{{ user }}">Read More</a>
+								<a class="text-dark" href="/author/{{ user }}">Read More</a>
 							</p>
 						</div>
 					{% endfor %}

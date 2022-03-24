@@ -32,8 +32,5 @@
     <script>
         window.addEventListener('load',a=>{const b=GLightbox();window.setTimeout(()=>{const a=screen.height*.25;let b=document.querySelectorAll('.gallery .gallery-item');Array.prototype.forEach.call(b,b=>{let c=b.querySelector('img'),d=c.width/c.height;b.style.width=a*d+'px',b.style.flexGrow=d})},200)})
     </script>
-    <script>
-        'serviceWorker'in navigator&&navigator.serviceWorker.register("/bookworm/site/service-worker.js")
-    </script>
 </body>
 </html>
