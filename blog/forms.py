@@ -19,7 +19,7 @@ class ContactForm(forms.ModelForm):
             }),
             'email': forms.TextInput(attrs = {
                 'class': 'form-control rounded',
-                'placeholder': 'jhondoe@email.com'
+                'placeholder': 'johndoe@email.com'
             }),
             'subject': forms.TextInput(attrs = {
                 'class': 'form-control rounded',

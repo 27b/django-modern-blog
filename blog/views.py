@@ -15,21 +15,40 @@ class IndexView(View):
 class PrivacyView(View):
 
     def get(self, request):
-        return render(request, 'blog/privacy.html')
+        context = {
+            'section_name': 'Privacy',
+            'sections': [
+                {'name': 'Privacy', 'url': '/privacy/'}
+            ]
+        }
+        return render(request, 'blog/privacy.html', context)
 
 
 class TermsAndConditionsView(View):
 
     def get(self, request):
-        return render(request, 'blog/terms_and_conditions.html')
+        context = {
+            'section_name': 'Terms & Conditions',
+            'sections': [
+                {'name': 'Terms & Conditions', 'url': '/terms-and-conditions/'}
+            ]
+        }
+        return render(request, 'blog/terms_and_conditions.html', context)
 
 
 class ContactView(View):
     form = ContactForm
+    context = {
+        'form': None,
+        'section_name': 'Contact',
+        'sections': [
+            {'name': 'Contact', 'url': '/contact/'}
+        ]
+    }
 
     def get(self, request):
-        context = {'form': self.form()}
-        return render(request, 'blog/contact.html', context)
+        self.context['form'] = self.form()
+        return render(request, 'blog/contact.html', self.context)
 
     def post(self, request):
         contact_form = self.form(request.POST)
@@ -37,7 +56,8 @@ class ContactView(View):
             contact_form.save()
             contact_form.instance.send_email()
             contact_form = self.form()
-        return render(request, 'blog/contact.html', {'form': contact_form})
+        self.context['form'] = contact_form
+        return render(request, 'blog/contact.html', self.context)
         
         
 
