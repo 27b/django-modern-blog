@@ -13,6 +13,13 @@ class Profile(models.Model):
 
     def __str__(self) -> str:
         return self.user.username
+    
+    def get_last_posts(self):
+        return Post.objects.filter(
+            author=self.user.id
+        ).order_by(
+            '-datetime'
+        )
 
 
 class Category(models.Model):

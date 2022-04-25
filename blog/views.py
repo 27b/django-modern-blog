@@ -70,6 +70,19 @@ class PostDetailView(DetailView):
     model = Post
 
 
+class AuthorDetailView(DetailView):
+    model = User
+    template_name = 'blog/author_detail.html'
+    slug_field = "username"
+    slug_url_kwarg = "username"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = context['object']
+        context['posts'] = user.profile.get_last_posts()[:5]
+        return context
+
+
 class AuthorListView(ListView):
     model = User
     template_name = 'blog/author_list.html'
