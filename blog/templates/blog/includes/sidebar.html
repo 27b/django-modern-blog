@@ -21,7 +21,7 @@
             <ul class="list-inline widget-list widget-list-inline taxonomies-list">
                 {% for tag in object.tags %}
                     <li class="list-inline-item">
-                        <a href="/tags/{{ tag }}">{{ tag }}</a>
+                        <a href="/tags/{{ tag }}">{{ tag | title }}</a>
                     </li>
                 {% endfor%}
                 <br>
