@@ -1,3 +1,4 @@
+from unicodedata import category
 from django.contrib import admin
 from django.db import models
 from django.contrib.auth.models import User
@@ -43,11 +44,21 @@ class Post(models.Model):
     last_modified = models.DateField(auto_now=True)
     datetime = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        ordering = ['-datetime']
+
     def __str__(self) -> str:
         return self.title
     
-    class Meta:
-        ordering = ['-datetime']
+    def get_similar_posts(self) -> list or False:
+        posts = Post.objects.filter(
+            category=self.category
+        ).order_by(
+            '-datetime'
+        )[:2]
+        if len(posts) > 0:
+            return posts
+        return False
 
 
 class Contact(models.Model):
