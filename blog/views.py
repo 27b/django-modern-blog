@@ -69,6 +69,11 @@ class IndexView(ListView):
 class PostDetailView(DetailView):
     model = Post
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['posts'] = self.object.get_similar_posts()
+        return context
+
 
 class AuthorDetailView(DetailView):
     model = User
