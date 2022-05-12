@@ -1,4 +1,5 @@
-from unicodedata import category
+from uuid import uuid4
+
 from django.contrib import admin
 from django.db import models
 from django.contrib.auth.models import User
@@ -80,7 +81,55 @@ class Contact(models.Model):
         )
 
 
+class Subscriber(models.Model):
+    email = models.CharField(unique=True, null=False, max_length=128)
+    random_code = models.CharField(max_length=32, default=uuid4().hex)
+    verified = models.BooleanField(default=False)
+
+    def __check_if_subscriber_in_db(self, email: str) -> bool:
+        '''Check if the email exists in the database.
+        
+        Args:
+            email: str
+        '''
+        if Subscriber.objects.filter(email=email).first():
+            return True
+        return False
+
+    def delete_subscriber(self) -> None:
+        '''Use this method if the user wants to unsubscribe or
+        if there were one or more failed attempts to access
+        /subscriber/ with wrong credentials.'''
+        # Subscriber.objects.filter(email=self.email).delete()
+        self.delete()
+
+    def send_subcription_email(self) -> None:
+        '''Send an email using the attributes of the object.'''
+        if self.__check_if_subscriber_in_db(self.email):
+            subscriber = Subscriber.objects.filter(email=email).first()
+            email = subscriber.email
+            random_code = subscriber.random_code
+            link = f'https://orion-b.com/subscribe/{email}/{random_code}'
+            send_mail(
+                'Orion B: Subscribe for our monthly newsletter.',
+                f'If you want to subscribe, access this link:\br {link}',
+                'noreplay@orion-b.com',
+                [email],
+                fail_silently=False,
+            )
+
+    def check_random_code(self, email: str, random_code: str) -> bool:
+        '''Check if the email and the secret code match those
+        found in the database.'''
+        if self.email == email and self.random_code == random_code:
+            self.verified = True
+            self.save()
+            return True
+        return False
+
+
 admin.site.register(Profile)
 admin.site.register(Category)
 admin.site.register(Post)
 admin.site.register(Contact)
+admin.site.register(Subscriber)
