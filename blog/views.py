@@ -1,16 +1,38 @@
 from django.shortcuts import render
+from django.http import HttpResponse
 from django.views import View
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django.contrib.auth.models import User
+
 from .forms import ContactForm
-from .models import Post
+from .models import Post, Subscriber
 
 
 class IndexView(View):
 
     def get(self, request):
         return render(request, 'blog/index.html')
+
+    def post(self, request):
+        email = str(request.POST.get('email'))
+        if email and '@' in email and email > 5 and email <= 128:
+            subscriber = Subscriber(email=email)
+            subscriber.save()
+            subscriber.send_subcription_email()
+        subscriber.delete_subscriber()
+        return HttpResponse('We have sent you a link, check your email.')
+
+
+class SubscriberView(View):
+
+    def get(self, request, email, secret_code):
+        '''Check if the email and secret_code is valid.'''
+        subscriber = Subscriber.objects.filter(email=email).first()
+        if subscriber and subscriber.verified == False and \
+           subscriber.check_random_code(email, secret_code):
+            return HttpResponse('Your email has been validated.')
+        return HttpResponse('Your email could not be validated, try again later.')
 
 
 class PrivacyView(View):
