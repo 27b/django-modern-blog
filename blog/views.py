@@ -15,12 +15,25 @@ class IndexView(View):
         return render(request, 'blog/index.html')
 
     def post(self, request):
+        '''If the email is valid, check if it already exists
+        in the database, if it exists, change the secret
+        code and send the email, otherwise create a new
+        subscriber and send an email.
+        
+        Note:
+            This code is written like this for better understanding.
+        '''
         email = str(request.POST.get('email'))
         if email and '@' in email and email > 5 and email <= 128:
-            subscriber = Subscriber(email=email)
-            subscriber.save()
-            subscriber.send_subcription_email()
-        subscriber.delete_subscriber()
+            subscriber_in_db = Subscriber.objects.filter(email=email).first()
+            if subscriber_in_db:
+                subscriber_in_db.generate_new_secret_code()
+                subscriber_in_db.save()
+                subscriber_in_db.send_subscription_email()
+            else:
+                new_subscriber = Subscriber(email=email)
+                new_subscriber.save()
+                new_subscriber.send_subscription_email()
         return HttpResponse('We have sent you a link, check your email.')
 
 
@@ -30,8 +43,11 @@ class SubscriberView(View):
         '''Check if the email and secret_code is valid.'''
         subscriber = Subscriber.objects.filter(email=email).first()
         if subscriber and subscriber.verified == False and \
-           subscriber.check_random_code(email, secret_code):
+           subscriber.check_secret_code(email, secret_code):
+            subscriber.verified = True
+            subscriber.save()
             return HttpResponse('Your email has been validated.')
+        subscriber.delete_subscriber()
         return HttpResponse('Your email could not be validated, try again later.')
 
 
