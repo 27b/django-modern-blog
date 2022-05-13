@@ -87,7 +87,7 @@ class Subscriber(models.Model):
     verified = models.BooleanField(default=False)
 
     def __check_if_subscriber_in_db(self, email: str) -> bool:
-        '''Check if the email exists in the database.
+        '''Check if the email exists in the database. 
         
         Args:
             email: str
@@ -96,14 +96,17 @@ class Subscriber(models.Model):
             return True
         return False
 
+    def generate_new_secret_code(self) -> None:
+        self.secret_code = uuid4().hex
+
     def delete_subscriber(self) -> None:
         '''Use this method if the user wants to unsubscribe or
         if there were one or more failed attempts to access
         /subscriber/ with wrong credentials.'''
-        # Subscriber.objects.filter(email=self.email).delete()
+        # Equivalent: Subscriber.objects.filter(email=self.email).delete()
         self.delete()
 
-    def send_subcription_email(self) -> None:
+    def send_subscription_email(self) -> None:
         '''Send an email using the attributes of the object.'''
         if self.__check_if_subscriber_in_db(self.email):
             subscriber = Subscriber.objects.filter(email=email).first()
@@ -118,12 +121,10 @@ class Subscriber(models.Model):
                 fail_silently=False,
             )
 
-    def check_random_code(self, email: str, random_code: str) -> bool:
+    def check_secret_code(self, email: str, random_code: str) -> bool:
         '''Check if the email and the secret code match those
         found in the database.'''
         if self.email == email and self.random_code == random_code:
-            self.verified = True
-            self.save()
             return True
         return False
 
