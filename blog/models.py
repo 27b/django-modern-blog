@@ -31,7 +31,7 @@ class Category(models.Model):
         verbose_name_plural = 'Categories'
     
     def __str__(self) -> str:
-        return self.title
+        return str(self.title)
     
     def get_length(self) -> int:
         return Post.objects.filter(category=self.id).count()
@@ -66,7 +66,7 @@ class Post(models.Model):
         ordering = ['-datetime']
 
     def __str__(self) -> str:
-        return self.title
+        return str(self.title)
     
     def get_similar_posts(self) -> list or False:
         posts = Post.objects.filter(
@@ -108,29 +108,29 @@ class Subscriber(models.Model):
     random_code = models.CharField(max_length=32, default=uuid4().hex)
     verified = models.BooleanField(default=False)
 
-    def __check_if_subscriber_in_db(self, email: str) -> bool:
-        '''Check if the email exists in the database. 
-        
+    def check_if_subscriber_in_db(self, email: str = None) -> bool:
+        """Check if the email exists in the database.
+
         Args:
             email: str
-        '''
-        if Subscriber.objects.filter(email=email).first():
-            return True
-        return False
+        """
+        search = email if email else self.email if self else False
+        query = self.objects.filter(email=search).first() if search else False
+        return True if query else False
 
     def generate_new_secret_code(self) -> None:
         self.secret_code = uuid4().hex
 
     def delete_subscriber(self) -> None:
-        '''Use this method if the user wants to unsubscribe or
+        """Use this method if the user wants to unsubscribe or
         if there were one or more failed attempts to access
-        /subscriber/ with wrong credentials.'''
+        /subscriber/ with wrong credentials."""
         # Equivalent: Subscriber.objects.filter(email=self.email).delete()
         self.delete()
 
     def send_subscription_email(self) -> None:
-        '''Send an email using the attributes of the object.'''
-        if self.__check_if_subscriber_in_db(self.email):
+        """Send an email using the attributes of the object."""
+        if self.check_if_subscriber_in_db():
             subscriber = Subscriber.objects.filter(email=self.email).first()
             email = subscriber.email
             random_code = subscriber.random_code
@@ -144,8 +144,8 @@ class Subscriber(models.Model):
             )
 
     def check_secret_code(self, email: str, random_code: str) -> bool:
-        '''Check if the email and the secret code match those
-        found in the database.'''
+        """Check if the email and the secret code match those
+        found in the database."""
         if self.email == email and self.random_code == random_code:
             return True
         return False
