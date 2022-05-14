@@ -16,7 +16,7 @@ class Profile(models.Model):
     def __str__(self) -> str:
         return self.user.username
     
-    def get_last_posts(self):
+    def get_latest_posts(self):
         return Post.objects.filter(
             author=self.user.id
         ).order_by(
@@ -32,6 +32,23 @@ class Category(models.Model):
     
     def __str__(self) -> str:
         return self.title
+    
+    def get_length(self) -> int:
+        return Post.objects.filter(category=self.id).count()
+
+    def get_latest_posts(self):
+        return Post.objects.filter(category=self.id).order_by('-datetime')
+
+    @classmethod
+    def get_categories(cls) -> list[dict]:
+        categories = cls.objects.all().order_by('-title')
+        return [
+            {
+                'title': c.title,
+                'length': c.get_length()
+            }
+            for c in categories
+        ]
 
 
 class Post(models.Model):
@@ -60,6 +77,11 @@ class Post(models.Model):
         if len(posts) > 0:
             return posts
         return False
+
+    @classmethod
+    def get_latest_posts(cls) -> list:
+        posts = cls.objects.all()[:5]
+        return posts
 
 
 class Contact(models.Model):
@@ -109,7 +131,7 @@ class Subscriber(models.Model):
     def send_subscription_email(self) -> None:
         '''Send an email using the attributes of the object.'''
         if self.__check_if_subscriber_in_db(self.email):
-            subscriber = Subscriber.objects.filter(email=email).first()
+            subscriber = Subscriber.objects.filter(email=self.email).first()
             email = subscriber.email
             random_code = subscriber.random_code
             link = f'https://orion-b.com/subscribe/{email}/{random_code}'
