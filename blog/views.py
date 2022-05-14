@@ -1,3 +1,4 @@
+from unicodedata import category
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views import View
@@ -6,7 +7,7 @@ from django.views.generic.list import ListView
 from django.contrib.auth.models import User
 
 from .forms import ContactForm
-from .models import Post, Subscriber
+from .models import Category, Post, Subscriber
 
 
 class IndexView(View):
@@ -35,6 +36,11 @@ class IndexView(View):
                 new_subscriber.save()
                 new_subscriber.send_subscription_email()
         return HttpResponse('We have sent you a link, check your email.')
+
+
+class IndexView(ListView):
+    model = Post
+    paginate_by = 6
 
 
 class SubscriberView(View):
@@ -97,11 +103,39 @@ class ContactView(View):
             contact_form = self.form()
         self.context['form'] = contact_form
         return render(request, 'blog/contact.html', self.context)        
-        
 
-class IndexView(ListView):
-    model = Post
+
+class CategoryListView(ListView):
+    model = Category
     paginate_by = 6
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['section_name'] =  'Category'
+        context['sections'] =  [
+            {'name': 'Category', 'url': '/category/'}
+        ]
+        context['posts'] = Post.get_latest_posts()
+        categories = Category.get_categories()
+        context['categories'] = categories
+        return context
+
+
+class CategoryDetailView(DetailView):
+    model = Category
+    slug_field = "title"
+    slug_url_kwarg = "title"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        title = self.object.title
+        context['section_name'] =  f'Showing posts from {title.capitalize()}'
+        context['sections'] = [
+            {'name': 'category', 'url': '/category/'},
+            {'name': title, 'url': title}
+        ]
+        context['posts'] = self.object.get_latest_posts()
+        return context
 
 
 class PostDetailView(DetailView):
@@ -110,19 +144,6 @@ class PostDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['posts'] = self.object.get_similar_posts()
-        return context
-
-
-class AuthorDetailView(DetailView):
-    model = User
-    template_name = 'blog/author_detail.html'
-    slug_field = "username"
-    slug_url_kwarg = "username"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        user = context['object']
-        context['posts'] = user.profile.get_last_posts()[:5]
         return context
 
 
@@ -138,4 +159,17 @@ class AuthorListView(ListView):
         context = super().get_context_data(**kwargs)
         context['section_name'] = 'Authors'
         context['sections'] = [{'name': 'Authors', 'url': '/authors/'}]
+        return context
+
+
+class AuthorDetailView(DetailView):
+    model = User
+    template_name = 'blog/author_detail.html'
+    slug_field = "username"
+    slug_url_kwarg = "username"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = context['object']
+        context['posts'] = user.profile.get_latest_posts()[:5]
         return context
