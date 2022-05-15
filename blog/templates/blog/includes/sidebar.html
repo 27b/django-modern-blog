@@ -3,10 +3,14 @@
         <div class="widget widget-categories">
             <h5 class="widget-title"><span>Categories</span></h5>
             <ul class="list-unstyled widget-list">
-                <li><a href="/categories/architecture/" class="d-flex">Architecture <small class="ms-auto">(1)</small></a></li>
-                <li><a href="/categories/book-reviews/" class="d-flex">Book reviews <small class="ms-auto">(1)</small></a></li>
-                <li><a href="/categories/design-patterns/" class="d-flex">Design patterns <small class="ms-auto">(4)</small></a></li>
-                <li><a href="/categories/guides-and-tutorials/" class="d-flex">Guides & Tutorials <small class="ms-auto">(2)</small></a></li>
+                {% for category in categories %}
+                    <li>
+                        <a href="/category/{{ category.title | lower }}" class="d-flex">
+                            {{ category.title | title }}
+                            <small class="ms-auto">({{ category.length }})</small>
+                        </a>
+                    </li>
+                {% endfor %}
             </ul>
         </div>
         <div class="widget">
@@ -16,7 +20,7 @@
                     <li class="list-inline-item">
                         <a href="/tags/{{ tag }}">{{ tag | title }}</a>
                     </li>
-                {% endfor%}
+                {% endfor %}
                 <br>
             </ul>
         </div>
