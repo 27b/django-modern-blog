@@ -1,4 +1,5 @@
 from uuid import uuid4
+from slugify import slugify
 
 from django.contrib import admin
 from django.db import models
@@ -55,6 +56,7 @@ class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     title = models.CharField(max_length=64, unique=True)
+    url = models.CharField(max_length=128, default="", editable=False)
     description = models.CharField(max_length=512)
     content = models.TextField()
     tags = ArrayField(models.CharField(max_length=32, blank=True))
@@ -67,7 +69,24 @@ class Post(models.Model):
 
     def __str__(self) -> str:
         return str(self.title)
-    
+
+    def save(self, *args, **kwargs):
+        """When this method is executed, it generates an url based on
+        the title of the post, if the url is already in use it adds an
+        uuid in the url."""
+        url = slugify(self.title)
+        query = Post.objects.filter(url=url).first()
+        if query and query.description != self.description:
+            uuid = uuid4().hex
+            url_with_uuid = uuid + url
+            if len(url_with_uuid) < 128:
+                self.url = url_with_uuid
+            else:
+                self.url = uuid
+        else:
+            self.url = url
+        super(Post, self).save(*args, **kwargs)
+
     def get_similar_posts(self) -> list or False:
         posts = Post.objects.filter(
             category=self.category
