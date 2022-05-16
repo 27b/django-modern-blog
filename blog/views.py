@@ -139,6 +139,8 @@ class CategoryDetailView(DetailView):
 
 class PostDetailView(DetailView):
     model = Post
+    slug_field = "url"
+    slug_url_kwarg = "url"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
