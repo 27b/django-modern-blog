@@ -38,10 +38,9 @@
                                     Categories
                                 </a>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="/category/architecture">Architecture</a>
-                                    <a class="dropdown-item" href="/category/book-reviews">Book reviews</a>
-                                    <a class="dropdown-item" href="/category/design-patterns">Design patterns</a>
-                                    <a class="dropdown-item" href="/category/guides-and-tutorials">Guides & Tutorials</a>
+                                    {% for category in categories %}
+                                        <a class="dropdown-item" href="/category/{{ category.title | lower }}">{{ category.title | title }}</a>
+                                    {% endfor %}
                                     <a class="dropdown-item" href="/category/">Go to Categories</a>
                                 </div>
                             </li>
