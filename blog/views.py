@@ -42,6 +42,11 @@ class IndexView(ListView):
     model = Post
     paginate_by = 6
 
+    #def get_context_data(self, **kwargs):
+    #    context = super().get_context_data(**kwargs)
+    #    context['categories'] = Category.get_categories()
+    #    return context
+
 
 class SubscriberView(View):
 
@@ -116,7 +121,6 @@ class CategoryListView(ListView):
             {'name': 'Category', 'url': '/category/'}
         ]
         context['posts'] = Post.get_latest_posts()
-        context['categories'] = Category.get_categories()
         return context
 
 
@@ -145,7 +149,6 @@ class PostDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['posts'] = self.object.get_similar_posts()
-        context['categories'] = Category.get_categories()
         return context
 
 
