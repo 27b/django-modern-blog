@@ -42,7 +42,7 @@ class Category(models.Model):
 
     @classmethod
     def get_categories(cls) -> list[dict]:
-        categories = cls.objects.all().order_by('-title')
+        categories = cls.objects.all().order_by('title')
         return [
             {
                 'title': c.title,
