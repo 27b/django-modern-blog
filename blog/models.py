@@ -144,8 +144,7 @@ class Subscriber(models.Model):
         """Use this method if the user wants to unsubscribe or
         if there were one or more failed attempts to access
         /subscriber/ with wrong credentials."""
-        # Equivalent: Subscriber.objects.filter(email=self.email).delete()
-        self.delete()
+        Subscriber.objects.filter(email=self.email).delete()
 
     def send_subscription_email(self) -> None:
         """Send an email using the attributes of the object."""
