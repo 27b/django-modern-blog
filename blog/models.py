@@ -167,10 +167,3 @@ class Subscriber(models.Model):
         if self.email == email and self.random_code == random_code:
             return True
         return False
-
-
-admin.site.register(Profile)
-admin.site.register(Category)
-admin.site.register(Post)
-admin.site.register(Contact)
-admin.site.register(Subscriber)
