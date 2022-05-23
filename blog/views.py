@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from django.views import View
 from django.views.generic.detail import DetailView
@@ -173,3 +173,15 @@ class AuthorDetailView(DetailView):
         user = context['object']
         context['posts'] = user.profile.get_latest_posts()[:5]
         return context
+
+
+class SearchList(View):
+
+    def get(self, request):
+        request_s = request.GET.get('s')
+        if request_s:
+            query = Post.objects.filter(description__icontains=request_s)[:5]
+            context = {}
+            context['posts'] = query
+            return render(request, 'blog/search_list.html', context)
+        return redirect('categories')
