@@ -1,5 +1,5 @@
 from django import forms
-from .models import Contact
+from .models import Contact, Subscriber
 
 
 class ContactForm(forms.ModelForm):
@@ -29,4 +29,18 @@ class ContactForm(forms.ModelForm):
                 'class': 'form-control rounded',
                 'placeholder': 'Your Message'
             }),
+        }
+
+
+class SubscriberForm(forms.ModelForm    ):
+    class Meta:
+        model = Subscriber
+        fields = ['email']
+        widgets = {
+            'email': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'placeholder': 'Enter yout email'
+                }
+            ),
         }

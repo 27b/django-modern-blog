@@ -1,3 +1,4 @@
+
 <footer class="section-sm">
     <div class="container">
         <div class="row justify-content-center align-items-center">
@@ -6,10 +7,14 @@
                     <h3 class="h4 mb-4 text-white text-center">Subscribe for our monthly newsletter.</h3>
                     <form class="px-0 px-sm-3 px-md-5" action="https://gmail.us4.list-manage.com/subscribe/post?u=463ee871f45d2d93748e77cad&amp;amp;id=a0a2c6d074" method="post" name="mailchimp_form_name" target="_blank">
                         <div class="input-group">
-                            <input form="subscription" type="text" class="form-control" placeholder="Enter your email" aria-label="Subscription" required="" autocomplete="new-email">
-                            <div class="input-group-append">
-                                <button type="submit" name="subscription" class="input-group-text h-100" aria-label="Subscription Button"><i class="icon fas fa-paper-plane" style="font-size:15px"></i></button>
-                            </div>
+                            <form method="post">
+                                {{ subscriber_form.email }}
+                                <div class="input-group-append">
+                                    <button type="submit" name="subscription" class="input-group-text h-100" aria-label="Subscription Button">
+                                        <i class="icon fas fa-paper-plane" style="font-size:15px"></i>
+                                    </button>
+                                </div>
+                            </form>
                         </div>
                         <div style="position:absolute;left:-5000px" aria-hidden="true">
                             <input type="text" name="b_463ee871f45d2d93748e77cad_a0a2c6d074" tabindex="-1">
