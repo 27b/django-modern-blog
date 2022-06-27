@@ -37,6 +37,16 @@
 									</div>
 								</div>
 							</div>
+							<div class="widget">
+								<ul class="list-inline widget-list widget-list-inline taxonomies-list">
+									{% for tag in object.tags %}
+										<li class="list-inline-item">
+											<a href="/tags/{{ tag }}">{{ tag | title }}</a>
+										</li>
+									{% endfor %}
+									<br>
+								</ul>
+							</div>
 							<div class="content">
 								{{ object.description }}
 								<br>
@@ -145,8 +155,8 @@
 						</div>
 					</div>
 
-					{% include './includes/sidebar.html' %}
-				
+					<!-- Sidebar -->
+
 				</div>
 			</div>
 		</section>

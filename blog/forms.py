@@ -37,10 +37,8 @@ class SubscriberForm(forms.ModelForm    ):
         model = Subscriber
         fields = ['email']
         widgets = {
-            'email': forms.TextInput(
-                attrs={
-                    'class': 'form-control',
-                    'placeholder': 'Enter yout email'
-                }
-            ),
+            'email': forms.TextInput(attrs = {
+                'class': 'form-control',
+                'placeholder': 'Enter your email'
+            }),
         }
