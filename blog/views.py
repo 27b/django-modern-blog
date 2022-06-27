@@ -127,7 +127,7 @@ class CategoryDetailView(DetailView):
         title = self.object.title
         context['section_name'] = f'Showing posts from {title.capitalize()}'
         context['sections'] = [
-            {'name': 'category', 'url': '/category/'},
+            {'name': 'Category', 'url': '/category/'},
             {'name': title, 'url': title}
         ]
         context['posts'] = self.object.get_latest_posts()
@@ -154,7 +154,7 @@ class TagDetailView(View):
         context = {}
         context['section_name'] = f'Showing posts from {title.capitalize()}'
         context['sections'] = [
-            {'name': 'Tag', 'url': '/tag/'},
+            {'name': 'Tags', 'url': '/tags/'},
             {'name': title, 'url': title}
         ]
         context['posts'] = Post.get_latest_posts_by_tag(str(title))
