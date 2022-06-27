@@ -1,7 +1,7 @@
 {% extends './base.html' %}
 
 {% block head %}
-	<title>Categories - Orión B Blog</title>
+	<title>Tags - Orión B Blog</title>
 	<meta name="description" content="List of authors.">
 	<style>
 		.cut-text {
@@ -22,9 +22,9 @@
         <div class="row justify-content-center text-center">
             <div class="col-lg-10">
                 <ul class="list-inline taxonomies-list">
-                    {% for category in categories %}
+                    {% for tag in tags %}
                         <li class="list-inline-item mb-1">
-                            <a class="h6 px-4 py-3 rounded bg-light d-block" href="/category/{{ category.title | lower }}"><i class="fas fa-tags me-1"></i> {{ category.title | title }} ({{ category.length }})</a>
+                            <a class="h6 px-4 py-3 rounded bg-light d-block" href="/tags/{{ tag.title | lower }}"><i class="fas fa-tags me-1"></i> {{ tag.title }} ({{ tag.length }})</a>
                         </li>
                     {% endfor %}
                 </ul>

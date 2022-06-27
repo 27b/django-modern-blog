@@ -112,9 +112,7 @@ class CategoryListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['section_name'] = 'Category'
-        context['sections'] = [
-            {'name': 'Category', 'url': '/category/'}
-        ]
+        context['sections'] = [{'name': 'Category', 'url': '/category/'}]
         context['posts'] = Post.get_latest_posts()
         return context
 
@@ -133,6 +131,21 @@ class CategoryDetailView(DetailView):
             {'name': title, 'url': title}
         ]
         context['posts'] = self.object.get_latest_posts()
+        return context
+
+
+class TagListView(ListView):
+    model = Post
+    paginate_by = 6
+    template_name = 'blog/tag_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['section_name'] = 'Tags'
+        context['sections'] = [{'name': 'Tags', 'url': '/tags/'}]
+        context['posts'] = Post.get_latest_posts()
+        context['tags'] = Post.get_all_tags()
+        print(context['tags'])
         return context
 
 
