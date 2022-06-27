@@ -103,7 +103,7 @@ class Post(models.Model):
     
     @classmethod
     def get_latest_posts_by_tag(cls, tags) -> list:
-        posts = cls.objects.filter(tags__overlap=tags).all()[:5]
+        posts = cls.objects.filter(tags__icontains=tags).all()[:5]
         return posts
 
     @classmethod
