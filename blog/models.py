@@ -101,6 +101,22 @@ class Post(models.Model):
         posts = cls.objects.all()[:5]
         return posts
 
+    @classmethod
+    def get_all_tags(cls) -> list:
+        """Counts the number of repeated tags and returns a list with
+        those tags and the number of posts."""
+        posts = cls.objects.all()
+        list_of_tags = {}
+        for post in posts:
+            for tag in post.tags:
+                if list_of_tags.get(tag):
+                    list_of_tags[tag].length += 1
+                else:
+                    list_of_tags[tag] = {}
+                    list_of_tags[tag]['title'] = tag
+                    list_of_tags[tag]['length'] = 1
+        return [list_of_tags[tag] for tag in list_of_tags.keys()]
+
 
 class Contact(models.Model):
     name = models.CharField(null=False, max_length=128)
