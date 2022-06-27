@@ -145,8 +145,20 @@ class TagListView(ListView):
         context['sections'] = [{'name': 'Tags', 'url': '/tags/'}]
         context['posts'] = Post.get_latest_posts()
         context['tags'] = Post.get_all_tags()
-        print(context['tags'])
         return context
+
+
+class TagDetailView(View):
+    
+    def get(self, request, title):
+        context = {}
+        context['section_name'] = f'Showing posts from {title.capitalize()}'
+        context['sections'] = [
+            {'name': 'Tag', 'url': '/tag/'},
+            {'name': title, 'url': title}
+        ]
+        context['posts'] = Post.get_latest_posts_by_tag(str(title))
+        return render(request, 'blog/tag_detail.html', context)
 
 
 class PostDetailView(DetailView):
